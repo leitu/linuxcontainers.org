@@ -51,6 +51,12 @@
      "generator": "markdown",
      "meta": {"input": "lxc/contribute.md"}},
 
+    {"path": "/lxc/security",
+     "title": "LXC - Security",
+     "menu": ["LXC", "Security"],
+     "generator": "markdown",
+     "meta": {"input": "lxc/security.md"}},
+
     {"path": "/lxc/downloads",
      "title": "LXC - Downloads",
      "menu": ["LXC", "Downloads"],
@@ -141,6 +147,12 @@
      "meta": {"dir": "/downloads/lxd",
               "input": "lxd/downloads.md"}},
 
+    {"path": "/lxd/try-it",
+     "title": "LXD - Try it online",
+     "menu": ["LXD", "Try it online"],
+     "generator": "html",
+     "meta": {"input": "lxd/try-it.html"}},
+
     {"path": "/lxd/external-resources",
      "menu": ["LXD", "External resources"]},
 
@@ -150,8 +162,8 @@
      "meta": {"url": "http://www.ubuntu.com/cloud/tools/lxd"}},
 
     {"path": "/lxd/articles",
-     "title": "LXD - Articles",
-     "menu": ["LXD", "Articles"],
+     "title": "LXD - Articles & videos",
+     "menu": ["LXD", "Articles & videos"],
      "generator": "markdown",
      "meta": {"input": "lxd/articles.md"}},
 

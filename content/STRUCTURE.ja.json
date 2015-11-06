@@ -41,6 +41,12 @@
      "generator": "markdown",
      "meta": {"input": "lxc/contribute.ja.md"}},
 
+    {"path": "/lxc/security",
+     "title": "LXC - セキュリティ",
+     "menu": ["LXC", "セキュリティ"],
+     "generator": "markdown",
+     "meta": {"input": "lxc/security.ja.md"}},
+
     {"path": "/lxc/downloads",
      "title": "LXC - ダウンロード",
      "menu": ["LXC", "ダウンロード"],
@@ -114,6 +120,12 @@
      "menu": ["LXD", "ダウンロード"],
      "meta": {"dir": "/downloads/lxd/",
               "input": "lxd/downloads.ja.md"}},
+
+    {"path": "/lxd/try-it",
+     "title": "LXD - オンラインでの試用",
+     "menu": ["LXD", "オンラインでの試用"],
+     "generator": "html",
+     "meta": {"input": "lxd/try-it.ja.html"}},
 
     {"path": "/lxd/external-resources",
      "menu": ["LXD", "外部リソース"]},

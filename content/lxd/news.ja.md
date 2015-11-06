@@ -1,5 +1,389 @@
 ![Download icon](/static/img/containers.png)
 # News
+## LXD 0.21 リリースのお知らせ <!-- LXD 0.21 release announcement --><span class="text-muted">2015 年 10 月 27 日<!-- 27th of October 2015 --></span>
+
+<!--
+The main changes for this release are:
+-->
+このリリースの主な変更点は以下の通りです。
+
+ * Windows 上でクライアントをビルドできるようになりました <!-- Client is now builable on Windows. -->
+ * LVM ボリュームのデフォルトサイズが 10GB に減少しました <!-- Default LVM volume size has been reduced to 10GB. -->
+ * クライアントでコマンドのエイリアスを設定できるようになりました <!-- Command aliases can be setup in the client. -->
+ * "lxc info" コマンドがサーバの情報も出力するようになりました <!-- "lxc info" now prints server information too. -->
+ * Btrfs ストレージ上でネストした LXD が使えるようになりました <!-- It's now possible to use a nested LXD on btrfs storage. -->
+
+<!--
+Additionally:
+-->
+加えて、
+
+ * 様々なストレージバックエンドの修正 <!-- Various storage backend fixes -->
+ * より良いエラーの取り扱いと報告 <!-- Better error handling and error reporting -->
+ * 多数のバグフィックス (リリース時点での既知のバグはなくなりました) <!-- A lot of bugfixes (no known bugs left at time of release) -->
+
+### ダウンロード <!-- Downloads -->
+<!--
+The release tarballs can be found on our [download page](/lxd/downloads).
+-->
+このリリースの tarball は [ダウンロードページ](/lxd/downloads) から取得できます。
+
+
+## LXD 0.20 リリースのお知らせ <!-- LXD 0.20 release announcement --><span class="text-muted">2015 年 10 月 14 日<!-- 14th of October 2015 --></span>
+
+<!--
+The main changes for this release are:
+-->
+このリリースの主な変更点は以下の通りです。
+
+ * コンテナの再起動は stop+start として実装されました (すべての設定がリロードされます) <!-- Container restart is now implemented as stop + start (reloads all config) -->
+ * --config/-c を使って起動時に設定 key=value を与えられるようになりました <!-- Config key=value can now be passed at launch time using \-\-config/-c -->
+ * コンテナを一時的に停止させるために新しく "pause" コマンドが使えるようになりました <!-- A new "pause" command is now available to temporarily freeze a container -->
+ * デフォルトではキャッシュしたイメージはプライベートとなります <!-- Cached images are now private by default -->
+ * リモートのコンテナをローカルのイメージストアに publish できるようになりました <!-- You can now publish a remote container into the local image store -->
+ * キャラクタデバイス、ブロックデバイスをコンテナに追加できるようになりました <!-- It is now possible to add character or block devices to a container -->
+ * イメージのリストでイメージサイズの確認ができるようになりました <!-- The image size is now shown in the image list -->
+
+<!--
+Additionally:
+-->
+加えて、
+
+ * 様々なストレージバックエンドの修正 <!-- Various storage backend fixes -->
+ * より良いエラーの取り扱いと報告 <!-- Better error handling and error reporting -->
+ * テストの改良 <!-- Improved testsuite -->
+ * 多数のバグフィックス (リリース時点での既知のバグはなくなりました) <!-- A lot of bugfixes (no known bugs left at time of release) -->
+
+
+### ダウンロード <!-- Downloads -->
+<!--
+The release tarballs can be found on our [download page](/lxd/downloads).
+-->
+このリリースの tarball は [ダウンロードページ](/lxd/downloads) から取得できます。
+
+
+## LXD 0.19 リリースのお知らせ <!-- LXD 0.19 release announcement --><span class="text-muted"><!-- 29th of September 2015 -->2015 年 9 月 25 日</span>
+
+<!--
+The main changes for this release are:
+-->
+このリリースの主な変更点は以下の通りです。
+
+ * ZFS をサポートしました <!-- ZFS support -->
+ * コンテナのネストをサポートしました <!-- Support for container nesting -->
+ * stdin から読み込む際に複数行の設定キーを指定できるようになりました (値として "-" を使います)<!-- Allow setting multi-line configuration keys by reading from stdin (using "-" as the value) -->
+ * コンテナの一時的なコピーを作れるようになりました (-e/--ephemeral フラグ)<!-- It's now possible to make an ephemeral copy of a container (-e/--ephemeral flag) -->
+ * パブリックな読み取り専用のサーバを自動で検出するようになりました (もう --public は不要です)<!-- Public read-only servers are now auto-detected (no more \-\-public needed) -->
+ * lxd-images が既存のイメージをアップデートできるようになりました (--sync フラグを使います)<!-- lxd-images now supports updating existing images (when using the \-\-sync flag) -->
+ * (edit コマンドを使って) イメージのパブリック指定の設定と解除が行えるようになりました <!-- It is now possible to mark/unmark images as public (through the edit command) -->
+
+<!--
+Additionally:
+-->
+加えて、
+
+ * テストスイートを完全に再構築しました <!-- A completely reworked testsuite -->
+ * Windows クライアントの準備のためにリファクタリングをいくつか行いました <!-- Some refactoring in preparation for a Windows client -->
+ * ドキュメントと仕様を更新しました <!-- Updated documentation and specifications -->
+ * 多数のバグフィックスを行いました (リリース時点での既知のバグはなくなりました)<!-- A lot of bugfixes (no known bugs left at time of release) -->
+
+<!--
+Note that due to an API implementation problem in past releases, older command line clients  
+will fail to interact with LXD 0.19's image store. Such clients should be upgraded to 0.19.
+-->
+過去のリリースの API 実装の問題により、古いコマンドラインクライアントでは、LXD 0.19 のイメージストアの操作が失敗することに注意してください。このような場合は 0.19 へアップグレードする必要があります。
+
+
+### ダウンロード<!-- Downloads -->
+<!--
+The release tarballs can be found on our [download page](/lxd/downloads).
+-->
+このリリースの tarball は [ダウンロードページ](/lxd/downloads) から取得できます。
+
+
+## LXD 0.18 リリースのお知らせ <!-- LXD 0.18 release announcement --><span class="text-muted">2015 年 9 月 15 日<!-- 15th of September 2015 --></span>
+
+<!--
+The main changes for this release are:
+-->
+このリリースの主な変更点は以下の通りです。
+
+ * lxc: 新たに --force-local オプションを追加しました <!-- Add a new \-\-force-local argument -->
+ * lxc: ファイルの push/pull の際に stdin/stdout が使えるようになりました <!-- Allow file push/pull using stdin/stdout -->
+ * lxc: 翻訳テンプレートを変更しました <!-- Rework translation template -->
+ * lxd/core: 特権コンテナのイメージ作成の問題を修正しました <!-- Fix image creation of privileged containers -->
+ * lxd/core: コンテナごとの apparmor プロファイルを実装しました <!-- implement per-container apparmor profiles -->
+ * lxd/core: コンテナごとの seccomp プロファイルを実装しました <!-- implement per-container seccomp profiles -->
+ * lxd/core: exit 時のソケットアクティベーションの問題を修正しました <!-- Fix socket-activation on exit -->
+ * lxd/core: ネストした LXD のサポートを追加しました <!-- Add support for nested LXD -->
+ * lxd/btrfs: btrfs におけるシェアードマウント検出の問題を修正しました <!-- Fix shared mount detection on btrfs -->
+ * lxd: 新たに "shutdown" サブコマンドを実装しました <!-- Implement new "shutdown" sub-command -->
+ * lxd: 新たに "activateifneeded" サブコマンドを実装しました <!-- Implement new "activateifneeded" sub-command -->
+ * scripts: LVM ストレージをセットアップおよび削除するスクリプトを追加しました <!-- Add script to set up and delete LVM storage -->
+ * 多数のバグ修正と、テストなどの改良を行いました <!-- A bunch more fixes, tests and other improvements -->
+
+### ダウンロード <!-- Downloads -->
+<!--
+The release tarballs can be found on our [download page](/lxd/downloads).
+-->
+このリリースの tarball は [ダウンロードページ](/lxd/downloads) から取得できます。
+
+## LXD 0.17 リリースのお知らせ <!-- LXD 0.17 release announcement --><span class="text-muted">2015 年 9 月 1 日<!-- 1st of September 2015 --></span>
+
+<!--
+The main changes for this release are:
+-->
+このリリースの主な変更点は以下の通りです。
+
+ * lxc: 新たに "lxc file edit" コマンドを追加しました <!-- Add a new "lxc file edit" command -->
+ * lxc: パブリックなリモートホストのサポートを追加しました <!-- Add support for public remotes -->
+ * lxc: リモートホストの IPv6 アドレスが追加できるようになりました <!-- Support adding a remote by its IPv6 address -->
+ * lxd/core: Go 1.5 でのビルドの問題を修正しました <!-- Fix building with Go 1.5 -->
+ * lxd/core: スナップショットのリネームができるようになりました <!-- Allow renaming snapshots -->
+ * lxd/core: コンテナに対する REST API に新たに /logs を追加しました <!-- Add a new /logs REST API to containers -->
+ * lxd/core: ストレージバックエンド名とバージョンをエクスポートするようになりました <!-- Export the storage backend name and version -->
+ * lxd/btrfs: 再帰的なサブボリュームのスナップショットと消去をサポートしました <!-- Support for recursive subvolume snapshot and removal -->
+ * lxd/lvm: スナップショットのサポートを追加しました <!-- Add snapshot support -->
+ * lxd/lvm: コンテナのコピーのサポートを追加しました <!-- Add container copy support -->
+ * lxd/lvm: コンテナのリネームのサポートを追加しました <!-- Add container rename support -->
+ * lxd/lvm: プールが使用中の場合は LVM 設定の変更を許可しなくなりました <!-- Disallow changing LVM config if pool is in use. -->
+ * lxd/lvm: 仕様に LVM の設定キーを追加しました <!-- Document LVM config keys in specs -->
+ * lxd-images: "lxd images import lxc" コマンドは廃止になりました <!-- Deprecate "lxd images import lxc" -->
+ * lxd-images: マニフェストの URL を表示するようになりました <!-- Print the manifest URL -->
+ * lxd-images: Ubuntu イメージの "releases" ストリームをデフォルトにしました <!-- Default to the "releases" stream for Ubuntu images -->
+ * vagrant: vmware での起動をサポートしました <!-- Support running in vmware -->
+ * 多数のバグ修正と、テストなどの改良を行いました <!-- A bunch more fixes, tests and other improvements -->
+
+<!--
+Note that as of this release, the use of "lxd-images import lxc" is
+deprecated in favor of using the images.linuxcontainers.org remote.
+-->
+このリリース以降、"lxd-images import lxc" コマンドの使用は廃止となりました。代わりにリモートサーバとして images.linuxcontainers.org を使用してください。
+
+<!--
+For example:
+-->
+例えば、今までは:
+
+    lxd-images import lxc centos 7 amd64 --alias centos
+    lxc launch centos my-container
+
+<!--
+Now becomes:
+-->
+として実行していた処理は、以下のようになりました:
+
+    lxc remote add images images.linuxcontainers.org    # one-time setup
+    lxc launch images:centos/7/amd64 my-container
+
+### ダウンロード <!-- Downloads -->
+<!--
+The release tarballs can be found on our [download page](/lxd/downloads).
+-->
+このリリースの tarball は [ダウンロードページ](/lxd/downloads) から取得できます。
+
+
+## LXD 0.16 リリースのお知らせ <!-- LXD 0.16 release announcement --><span class="text-muted">2015 年 8 月 18 日<!--18th of August 2015 --></span>
+
+<!--
+The main changes for this release are:
+-->
+このリリースの主な変更点は以下の通りです。
+
+ * コンテナの自動起動のサポートを追加しました。自動起動時の起動間隔と起動順のサポートを含みます <!-- Added container auto-start support, includes start delay and start ordering -->
+ * ローカル (unix socket) からリモートデーモン (https) へのコンテナとイメージのコピーをサポートしました <!-- Support copying container and images from a local (unix socket) to a remote (https) daemon -->
+ * 異なる uid/gid の割り当てを持つホスト間で非特権コンテナの転送を行う際に、id の再マッピングを行うようになりました <!-- Remap the unprivileged containers when transferring between hosts with differing allocations -->
+ * 既存のコンテナで、id のマッピングが変わった際と特権・非特権の変更の際に、id の再マッピングを行うようになりました <!-- Remap existing containers when their idmap changes or when they're switched between privileged and unprivileged -->
+ * EDITOR 環境変数を正しく扱うようになりました <!-- The EDITOR variable is now properly respected -->
+ * リモートイメージからのコンテナの起動時に、キャッシュされたイメージを expire するようになりました <!-- When starting a container from a remote image, the cached image now expires -->
+ * lxd-images に新たに --public フラグを追加しました <!-- New &#045;&#045;public flag added to lxd-images -->
+ * スナップショット時に --stateful 指定ができるようになりました <!-- Allow &#045;&#045;stateful snapshots -->
+ * 多数のバグフィックスと、パフォーマンスとテストの改良を行いました <!-- And a lot of bugfixes, performance and test improvements -->
+
+### ダウンロード<!-- Downloads -->
+<!--
+The release tarballs can be found on our [download page](/lxd/downloads).
+-->
+このリリースの tarball は [ダウンロードページ](/lxd/downloads) から取得できます。
+
+## LXD 0.15 リリースのお知らせ <!-- LXD 0.15 release announcement --><span class="text-muted">2015 年 8 月 4 日<!--4th of August 2015 --></span>
+
+<!--
+The main changes for this release are:
+-->
+このリリースの主な変更点は以下の通りです。
+
+ * ストレージとネットワークのホットプラグ機能を追加しました <!-- Added storage and network hotplug -->
+ * ロギングの改良を行いました <!-- Improved logging -->
+ * LVM と btrfs バックエンドの改良を行いました <!-- Improved LVM and btrfs backend -->
+ * /dev/lxd が gccgo でも動作するようになりました <!-- /dev/lxd now works with gccgo -->
+ * コンテナ内部の環境変数を設定するための新しい environment.* という設定を追加しました <!-- Added new environment.* configuration namespace to set environment variables inside the container -->
+ * init と launch コマンドでコンテナ名を表示するようになりました <!-- Init and launch now print the container name -->
+ * lxd-images コマンドが扱うイメージのデフォルトが Ubuntu 14.04 LTS になりました <!-- lxd-images now defaults to Ubuntu 14.04 LTS -->
+ * --tcp オプションは設定 core.https_address で置き換えられました <!-- &#045;&#045;tcp has now been replaced by the core.https_address config option -->
+ * LVM と btrfs サポートの改良を行いました <!-- Improved LVM and btrfs support -->
+ * LXD のスピードテストをいくつか追加しました <!-- Add some LXD speed tests -->
+ * LXD クライアントのみをビルドする "make client" ターゲットを Makefile に追加しました (MacOS Xで使用します) <!-- New "make client" target to only build the LXD client (use this for MacOS X) -->
+ * lxdbr0 ブリッジ用のスクリプトと http プロキシコードを新たに追加しました <!-- Introduce new scripts and http proxy code for a lxdbr0 bridge -->
+ * ストレージの内部構造を変更しました <!-- Rework internal storage representation -->
+ * コンテナの内部構造を変更しました <!-- Rework internal container representation -->
+ * データベースの内部構造を変更しました <!-- Rework internal database representation -->
+ * 色々なテストの改良を行いました <!-- Various testsuite improvements -->
+ * 多数のバグフィックスと小さな改良を行いました <!-- A lot more bugfixes and other small improvements -->
+
+<!--
+This release moves containers from /var/lib/lxd/lxc to /var/lib/lxd/containers  
+and snapshots from /var/lib/lxd/lxc/\<name\>/snapshots to /var/lib/lxd/snapshots/\<name\>.
+To do so, LXD will stop all containers on the next startup, then start them again  
+after moving everything to the new location.
+-->
+このリリースでコンテナが /var/lib/lxd/lxc から /var/lib/lxd/containers へ、スナップショットは /var/lib/lxd/lxc/\<name\>/snapshots から /var/lib/lxd/snapshots/\<name\> へ移動しました。このため、LXD は次回の起動時にすべてのコンテナを停止し、すべてのコンテナを新しい場所に移動させたあとにコンテナを起動します。
+
+<!--
+The --tcp daemon option has been replaced by the core.https\_address option allowing users  
+to change the address and port LXD binds to. Changes are now applied immediately.
+-->
+--tcp デーモンオプションは、ユーザが LXD がバインドするアドレスとポートを変更するための  core.https\_address オプションに置き換えられました。この変更はすぐに適用されます。
+
+### ダウンロード<!-- Downloads -->
+<!--
+The release tarballs can be found on our [download page](/lxd/downloads).
+-->
+このリリースの tarball は [ダウンロードページ](/lxd/downloads) から取得できます。
+
+
+## LXD 0.14 リリースのお知らせ <!-- LXD 0.14 release announcement --><span class="text-muted">2015 年 7 月 21 日<!-- 21st of July 2015 --></span>
+
+<!--
+The main changes for this release are:
+-->
+このリリースの主な変更点は以下の通りです。
+
+ * コマンドラインのヘルプを改良しました <!-- Improve command line help -->
+ * LVM バックエンドを改良しました (コンテナが実行されている間だけストレージを mount/umount できます) <!-- Improve LVM backend (only mount/umount storage while the container is running, ...) -->
+ * 証明書を扱う部分を作りなおしました (ユーザインターフェース、生成と再帰問い合わせのサポート) <!-- Rework certificate handling (user interface, generation and recursive query support) -->
+ * 不正なイメージの原因となる publish のバグを修正しました <!-- Fix a publish bug that would lead to invalid images -->
+ * コンテナのコピー、マイグレーションの IPv6 サポートの修正を行いました <!-- Fix IPv6 support of container copy/migration -->
+ * ロギングのコードが新しくなりました (syslog サポート、ログファイルのサポートとログレベル) <!-- New logging code (syslog support, logfile support and log levels) -->
+ * "split" (分割された) イメージ (メタデータとrootfsが分離している) のサポートのための実装を行いました <!-- Implement support for "split" images (separate metadata and rootfs) -->
+ * lxd-images にダウンロードの進捗をトラッキングする機能を追加しました <!-- Add download progress tracking to lxd-images -->
+ * アーキテクチャの不整合を検出して報告するようになりました <!-- Detect and report architecture mismatches -->
+ * サーバ間で直接イメージのコピーを行う機能がサポートされました <!-- Direct image copy between servers is now supported -->
+ * /dev/lxd が meta-data インターフェースをサポートしました <!-- /dev/lxd now supports the meta-data interface -->
+ * lxd-images を使って Ubuntu Cloud イメージがインポートできるようになりました <!-- Ubuntu cloud images may now be imported using lxd-images -->
+ * その他、コードの改良を行いました (golint、リファクタリング、圧縮の扱い、テストなど) <!-- Other code improvements (golint, refactoring, compression handling, tests, ...) -->
+
+<!--
+This is the first LXD release to support the official Ubuntu Cloud images.  
+At this time, those are only available for the current development release (wily)  
+but we hope to have images for all supported Ubuntu releases over the next few days.
+-->
+このリリースは公式の Ubuntu Cloud イメージをサポートする最初の LXD のリリースです。現時点では、current の開発リリース (wily) のみ利用できます。しかし、すべてのサポートされた Ubuntu のリリースのイメージがこれから数日間で使えるようになるはずです。
+
+<!--
+To import one of those images into your LXD image store, run:
+-->
+これらのイメージをあなたの LXD イメージストアにインポートするには、以下のように実行します。
+
+    lxd-images import ubuntu --alias ubuntu-cloud
+
+### ダウンロード <!-- Downloads -->
+<!--
+The release tarballs can be found on our [download page](/lxd/downloads).
+-->
+このリリースの tarball は [ダウンロードページ](/lxd/downloads) から取得できます。
+
+
+## LXD 0.13 リリースのお知らせ <!-- LXD 0.13 release announcement --><span class="text-muted">2015 年 7 月 7 日 <!-- 7th of July 2015 --></span>
+
+<!--
+The main changes for this release are:
+-->
+このリリースの主な変更点は以下の通りです。
+
+ * ストレージバックエンドとして LVM thin pool のサポートを追加しました <!-- Add support for LVM thin pools as a storage backend. -->
+ * 基本的な bash 補完を追加しました <!-- Add basic bash completion -->
+ * コンテナをイメージに変換する "publish" コマンドを実装しました <!-- Implement the "publish" command, turning a container into an image -->
+ * ファイルの push/pull の信頼性を改良しました <!-- Improve file push/pull reliability -->
+ * 一度に複数のコンテナを start/stop/restart/delete できるようにしました <!-- Make it possible to start/stop/restart/delete multiple containers at once -->
+ * gccgo を使ったビルドの修正を行いました (現時点ではこの場合には /dev/lxd を無効にします) <!-- Fix build under gccgo (currently disabling /dev/lxd in such case) -->
+ * コンテナのコピー時の btrfs のパフォーマンスを改良しました (訳注: btrfs の場合は rsync でなくスナップショットでコピーを作成します)<!-- Improve btrfs performance during container copy -->
+ * 他にも多数のバグ修正、細かな改良、クリーンアップを行っています <!-- A lot of other bugfixes, minor improvements and cleanups -->
+
+<!--
+This is the first release of LXD where the client may be built on operating systems  
+other than Linux. At the moment, MacOS X has been confirmed to work and Windows is known not to work,  
+other Unix may work too but haven't been tested.
+-->
+このリリースは Linux 以外のオペレーティングシステム上でクライアントがビルドできる LXD の最初のリリースです。今のところ、Mac OS X では動作確認がされています。Windows では動かないことが確認されています。他の Unix では動く可能性が高いですが、テストはされていません。
+
+### ダウンロード <!-- Downloads -->
+<!--
+The release tarballs can be found on our [download page](/lxd/downloads).
+-->
+このリリースの tarball は [ダウンロードページ](/lxd/downloads) から取得できます。
+
+
+## LXD 0.12 リリースのお知らせ <!-- LXD 0.12 release announcement --><span class="text-muted">2015 年 6 月 23 日 <!-- 23rd of June 2015 --></span>
+
+<!--
+The main changes for this release are:
+-->
+このリリースの主な変更点は以下の通りです。
+
+ * /dev/lxd を実装しました <!-- Implement /dev/lxd -->
+ * exec 時の初期コンソールサイズの修正を行いました <!-- Fix initial console size on exec -->
+ * マイグレーションのメモリ消費量を減少させました <!-- Reduce memory footprint of migration -->
+ * API でユーザが読める形式の日付フォーマットを使うようになりました <!-- Use user redable date strings in the API -->
+ * サーバの設定キーを設定しなくても良くなりました <!-- Allow unset for server config keys -->
+ * exec の様々な競合状態を修正しました <!-- Fix various race conditions with exec -->
+ * 純粋な Go 言語による gettext 実装を使用するように変更しました <!-- Switch to a pure-go gettext implementation -->
+ * すべての応答で正しい Content-Type をセットするようにしました <!-- Set proper Content-Type on all replies -->
+ * info でホストの veth デバイスの情報を表示するようになりました <!-- how the host veth device in info -->
+ * より良い Snappy ubuntu サポートのためにいくつか変更を行いました <!-- Some changes to better support Snappy ubuntu -->
+ * 様々なその他のバグフィックスを行いました <!-- Various other bugfixes -->
+ * ヘルプメッセージの改良を行いました <!-- Improve help messages -->
+ * テストの改良を行いました <!-- Improve testsuite -->
+ * ドイツ語の翻訳を追加しました <!-- Initial German translation -->
+
+### ダウンロード <!-- Downloads -->
+<!--
+The release tarballs can be found on our [download page](/lxd/downloads).
+-->
+このリリースの tarball は [ダウンロードページ](/lxd/downloads) から取得できます。
+
+
+## LXD 0.11 リリースのお知らせ <!-- LXD 0.11 release announcement --><span class="text-muted">2015 年 6 月 9 日<!-- 9th of June 2015 --></span>
+
+<!--
+The main changes for this release are:
+-->
+このリリースの主な変更点は以下の通りです。
+
+ * イメージ内のテンプレートファイルをサポートしました <!-- File templating suport in images -->
+ * systemd の socket activation をサポートしました <!-- Socket activation with Systemd -->
+ * スタートアップ時のコンテナのクリーンシャットダウンと再起動をサポートしました <!-- Support for clean shutdown and container restart on startup -->
+ * "lxc image show" コマンドの実装をしました <!-- Implement "lxc image show" -->
+ * exec での SIGWINCH シグナル (ターミナルのリサイズイベント) のサポートを実装しました <!-- Implement SIGWINCH support in exec (terminal resize event) -->
+ * すべての設定キーを仕様に沿ったものにしました <!-- Make all configuration keys spec-compliant -->
+ * "lxc image edit" の修正を行いました <!-- Fix "lxc image edit" -->
+ * 外部との接続性がなくてもすべてのテストが実行できるようになりました <!-- Allow running the testsuite without any outside connectivity -->
+ * テストの出力をより読みやすいように改良しました <!-- Improve testsuite output to be more readable -->
+ * その他のバグフィックスを行いました <!-- And the usual set of bugfixes. -->
+
+<!--
+NOTE: The key to set a server password is now, core.trust\_password. 
+On first startup of LXD 0.11, all the old supported names will be converted to the official one.
+-->
+注意: サーバパスワードを設定するためのキーは core.trust\_password になりました。
+LXD 0.11 の最初の起動時に、古いバージョンでサポートされていた名前はすべて正式なキー名に変換されます。
+
+### ダウンロード <!-- Downloads -->
+<!--
+The release tarballs can be found on our [download page](/lxd/downloads).
+-->
+このリリースの tarball は [ダウンロードページ](/lxd/downloads) から取得できます。
+
 ## LXD 0.10 リリースのお知らせ <!-- LXD 0.10 release announcement --><span class="text-muted">2015 年 5 月 26 日<!-- 26th of May 2015 --></span>
 
 <!--

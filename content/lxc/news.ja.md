@@ -1,4 +1,183 @@
 # News
+## LXC 1.1.4 リリースのお知らせ <!-- LXC 1.1.4 release announcement --><span class="text-muted">2015 年 10 月 6 日<!-- 6th of October 2015 --></span>
+
+重要な変更<!-- Important -->:
+
+ * セキュリティホール CVE-2015-1335 の修正 <!-- Security fix for CVE-2015-1335 -->
+
+コア:
+
+ * setenv() を呼ぶ前に NULL ポインタのチェックを行うようにしました <!-- Check for NULL pointers before calling setenv() -->
+ * (lxc.mount.entry に指定する) create=dir と create=file を処理する関数を分けました (訳注: 以下のふたつの項目とセットで lxc.mount* で設定されたマウントエントリを処理する関数のリファクタリングを行っています)<!-- Factorize handle of create=dir and create=file -->
+ * マウント用のエントリを処理する関数の分割と再構築を行いました <!-- Refactor and factorize mount entries -->
+ * lxc.mount* を扱う関数を 3 つに分割しました <!-- Split handle of lxc.mount* with 3 functions -->
+ * init: 古いバージョンの apparmor をサポートしました <!-- Support older apparmor -->
+ * LXC_CLONE_KEEPNAME の指定が正常に動作するようになりました <!-- Make LXC_CLONE_KEEPNAME work -->
+ * rootfs が指定されない場合の自動マウントの不具合を修正しました <!-- Fix automatic mounts without a rootfs -->
+ * rootfs が指定されない場合のコンテナ作成の不具合を修正しました <!-- rootfs Fix container creation without a rootfs -->
+ * rootfs が指定されない場合の /dev のシンボリックリンクの不具合を修正しました <!-- Fix /dev symlinks without a rootfs -->
+ * rootfs が指定されない場合でも autodev が動作するようになりました <!-- Allow autodev without a rootfs -->
+ * rootfs が指定されない場合でも、必要な場合のみ /proc をマウントするようになりました。 <!-- Only mount /proc if needed, even without a rootfs -->
+ * コンテナ作成時、rootfs が既に存在している場合も設定を保存するようになりました <!-- When creating container, save configuration if rootfs already exists -->
+ * rootfs が指定されない場合の start フックの検証を修正しました <!-- Fix verification of start hook without a rootfs -->
+ * コンテナの停止時にネットワークデバイスを確実に削除するようにしました <!-- Tear down network devices during container halt -->
+ * coverity: mount_entry_create_dir_file の修正を行いました <!-- fix mount_entry_create_dir_file -->
+ * ネストしたコンテナをサポートするために include する nesting.conf を追加しました <!-- Add a nesting.conf which can be included to support nesting containers -->
+ * realloc() のサイズの計算を修正しました <!-- Fix reallocation calculation -->
+ * bdev_destroy() と bdev_destroy_wrapper() を追加しました <!-- Add bdev_destroy() and bdev_destroy_wrapper() -->
+ * overlayfs_clone: rootfs をマウントして rsync を行うようにしました (訳注: overlayfs の非特権コンテナのクローンが行えるように修正しました)<!-- rsync the mounted rootfs -->
+ * lxc_rmdir_onedev: パスが存在しない場合でも失敗しなくなりました (訳注: 作成が不十分なコンテナの削除時にエラーがでないようになりました)<!-- don't fail if path doesn't exist -->
+ * overlayfs_mount: delta ディレクトリが存在しない場合に作成するようにしました <!-- create delta dir if it doesn't exist -->
+ * ovl_rsync: umount を確実に行うようにしました <!-- make sure to umount -->
+ * bdev.h の bdev_destroy() を使って bdev を削除するようにしました <!-- Destroy bdevs using bdev_destroy() from bdev.h -->
+ * インデントの修正を行いました <!-- Fix indentation -->
+ * cmds: abstract socket の長さの問題を修正しました <!-- fix abstract socket length problem -->
+ * coverity: 冗長な処理ブロックを削除しました <!-- drop second (redundant) block -->
+ * mount_proc_if_needed() で snprintf の返り値のチェックを行うようにしました <!-- Check return value of snprintf in mount_proc_if_needed() -->
+ * CAP_AUDIT_READ を追加しました <!-- Add CAP_AUDIT_READ -->
+ * CAP_BLOCK_SUSPEND を追加しました <!-- Add CAP_BLOCK_SUSPEND -->
+ * 処理の失敗時に確保されたメモリを解放するようにしました <!-- Free allocated memory on failure (v2) -->
+ * Android 用に O_PATH と O_NOFOLLOW を定義しました <!-- Define O_PATH and O_NOFOLLOW for Android -->
+ * seccomp: aarch64 のサポートを追加しました <!-- add aarch64 support -->
+ * lxc-test-symlink: 絶対パスのシンボリックリンクを使ったテストを追加しました <!-- add a test using absolute symlink -->
+ * lxc_mount_auto_mounts: NULL 判定をきちんと行った後に処理を行うようにしました <!-- fix weirdness -->
+ * lxc_mount_auto_mounts 内の変数の型がおかしかったので修正しました <!-- Fix the type of i in lxc_mount_auto_mounts -->
+
+ツール <!-- Tools -->:
+
+ * コマンドが出力する使い方の文法を修正しました <!-- Fix grammar in some of the executables "NAME for name of the container" becomes "NAME of the container" -->
+ * lxc-checkconfig: カーネル設定オプションのチェックをいくつか追加しました <!-- add some more config options -->
+ * lxc-start-ephemeral: パスワードを直接パースするようにしました <!-- Parse passwd directly -->
+
+ドキュメント <!-- Documentation -->:
+
+ * -P オプションに対する長いオプション (--lxcpath) をドキュメントに追加しました <!-- Add long option for -P in documentation -->
+ * create=dir と create=file オプションの説明を lxc.container.conf に追加しました <!-- Add doc for optional, create=dir and create=file in lxc.container.conf man -->
+ * lxc.system.conf(5) の lxc.cgroup.use の説明を更新しました <!-- Update lxc.cgroup.use in lxc.system.conf(5) -->
+ * lxc-destroy(1) に共通オプションの説明を追加しました <!-- Add the description of common options in lxc-destroy(1) -->
+<!-- * Add LXC-specific mount option in Japanese lxc.container.conf(5) -->
+
+テンプレート <!-- Templates -->:
+
+ * lxc-debian: stretch (Debian 9) イメージのサポートを追加しました <!-- support stretch (Debian 9) images -->
+ * lxc-debian: contrib と non-free を含まない指定ができるようになりました <!-- allow not including contrib/non-free -->
+ * lxc-debian: dpkg コマンドが multiarch をサポートしているかチェックするようになりました <!-- Test dpkg for multiarch support -->
+ * lxc-debian: lxc-debian テンプレートで dpkg が multiarch をサポートしているかどうかのチェック方法を変更しました <!-- Alternative test for dpkg multiarch support in lxc-debian template -->
+ * lxc-ubuntu: ubuntu.common.conf: /dev/mqueue をマウントするようにしました <!-- mount /dev/mqueue -->
+ * lxc-debian: カーネルのアーキテクチャのみをチェックするようにしました <!-- We should only check the kernel architecture. -->
+ * lxc-alpine: 移植性を向上させるため GNU BRE 拡張の使用を止めました <!-- avoid GNU BRE extensions for better portability -->
+ * lxc-alpine: オプションをパースするために getopt を使うようにしました <!-- use getopt to parse options -->
+
+<!--
+Those stable fixes were brought to you by 14 individual contributors.
+-->
+これらの stable の修正は 14 名のコントリビュータによってなされました。
+
+### ダウンロード <!-- Downloads -->
+<!--
+The release tarballs may be found on our [download page](/lxc/downloads) and we expect most distributions  
+will very soon ship a packaged version of LXC 1.1.4.
+-->
+このリリースの tarball は [ダウンロードページ](/lxc/downloads) から取得できます。そして、各ディストリビューションがすぐに LXC 1.1.4 のパッケージをリリースするでしょう。
+
+<!--
+Should you be interested in individual changes or just looking at the detailed development history,  
+our stable branch is on [Github](https://github.com/lxc/lxc/tree/stable-1.1).
+-->
+個々の変更点に興味がある場合、そして開発の履歴を見たい場合、stable ブランチ (stable-1.1) は [Github](https://github.com/lxc/lxc/tree/stable-1.1) にあります。
+
+
+## LXC 1.1.3 リリースのお知らせ <!-- LXC 1.1.3 release announcement --><span class="text-muted">2015 年 8 月 14 日<!-- 14th of August 2015 --></span>
+<!--
+This is the third bugfix release for LXC 1.1.
+-->
+このリリースは LXC 1.1 の 3 回目のバグフィックスリリースです。
+
+### 変更点 <!-- Changes -->
+
+重要な変更<!-- Important -->:
+
+ * セキュリティホール CVE-2015-1331 の修正 <!-- Security fix for CVE-2015-1331 -->
+ * セキュリティホール CVE-2015-1334 の修正 <!-- Security fix for CVE-2015-1334 -->
+ * LXC 1.1 で生じた LXC 1.0 との ABI の非互換性に関する修正を行いました <!-- Fix an ABI regression in LXC 1.1 compared to LXC 1.0. -->  
+   大変申し訳ないことですが、この修正は LXC 1.1.0、1.1.1、1.1.2 でビルドしたバイナリは LXC 1.1.3 で再度ビルドする必要があることを意味します。しかし、この修正は LXC 1.0 とそのバグフィックスリリースに対するバイナリとの後方互換性を損なうよりも望ましいことです。
+   <!--
+   Fixing this unfortunately means that binaries built against LXC
+   1.1.0, 1.1.1 and 1.1.2 will need rebuilding against LXC 1.1.3.  
+   This is however preferable to not having backward compatibility with
+   binaries built for LXC 1.0 and its bugfix releases.
+   -->
+
+コア<!-- Core -->:
+
+ * apparmor: ラッパーの代わりに /lib/apparmor/profile-load を直接呼ぶようにしました <!-- Call /lib/apparmor/profile-load directly instead of the wrapper -->
+ * aufs: 非特権コンテナのサポートを追加しました <!-- Support unprivileged containers -->
+ * bash: POSIX 互換の関数名を使用するようにしました <!-- Use POSIX-compliant function names -->
+ * cgmanager: lxc.cgroup.use の値を使用するようになりました <!-- Respect lxc.cgroup.use -->
+ * cgmanager: /proc/self/cgroups の代わりに cgmanager の listcontrollers を使用するようになりました <!-- Use listcontrollers instead of /proc/self/cgroups -->
+ * cgroup: 正しい順序でメモリの制限を適用するようになりました <!-- Apply the memory restrictions in the right order -->
+ * clone: ファイルシステムのケーパビリティを適切に扱うようになりました <!-- Properly handle filesystem capabilities -->
+ * clone: ハードリンクを適切に扱うようになりました <!-- Properly handle hardlinks -->
+ * core: コンテナのロギングがスレッドセーフになりました <!-- Container logging is now thread safe -->
+ * destroy: Btrfs のサブボリュームを適切に消去するようになりました <!-- Properly remove btrfs subvolumes -->
+ * lua: Lua 5.3 をサポートするようになりました <!-- Support Lua 5.3 -->
+ * lxc-net: いくつかバグを修正しました <!-- Fix several bugs -->
+ * lxc-net: IPv6 のサポートを追加しました <!-- Support IPv6 -->
+ * lxc-net: ifconfig の代わりに iproute を使うようになりました <!-- Use iproute instead of ifconfig -->
+ * monitor: コンテナのモニタを行うインターフェースの競合状態を修正しました <!-- Fix race conditions in the monitor container interface -->
+ * network: リブート時の veth のセットアップを適切に扱うようになりました <!-- Properly handle veth setup on reboot -->
+ * overlayfs: workdir がない場合に作成するようになりました <!-- Create the workdir if missing -->
+ * seccomp: セットアップコードを単純化し、ルールの解析を修正しました <!-- simplify the setup code and fix rule parsing -->
+ * start: デーモン化の際に常に FD 0-2 をクローズするようにしました <!-- Always close fds 0-2 when daemonized -->
+ * start: デーモンで起動する際の失敗をいくつかより適切に扱うようになりました <!-- Better handle some daemonized startup failures -->
+ * start: lxc-init が見つからない場合のエラーメッセージを改良しました <!-- Improve error message when lxc-init can't be found -->
+ * start: ユーザネームスペース使用時、/proc のアンマウントの失敗を無視するようにしました <!-- In userns, ignore umount failures for /proc -->
+ * start: 使用できる場合は、loop デバイスの設定に /dev/loop-control を使うようになりました <!-- When available, use /dev/loop-control to configure the loop devices -->
+ * systemd: lxc-containers と lxc-net 間の起動時の競合状態を修正しました <!-- Fix startup race condition between lxc-containers and lxc-net -->
+ * 小さなメモリリークをいくつか修正しました (Coverity により) <!-- Several fixes for small memory leaks (thanks to Coverity) -->
+ * チェックポイント/リストア機能の様々な改良を行いました <!-- Various improvements to the checkpoint/restore feature -->
+ * 様々なドキュメントの改良を行いました <!-- Various documentation improvements -->
+ * 様々なテストの改良を行いました <!-- Various tests improvements -->
+
+コマンド<!-- Commands-->:
+
+ * lxc-autostart: stdout が tty でない場合に出力が壊れる不具合を修正しました <!-- Fix broken output when stdout isn't a tty -->
+ * lxc-checkconfig: 新しいカーネルをサポートしました <!-- support newer kernels -->
+
+テンプレート<!-- Templates -->:
+
+ * alpine: /dev/shm の扱いを修正しました <!-- Fix /dev/shm handling -->
+ * alpine: apk バイナリの検証を修正しました <!-- Fix verification of the apk binary -->
+ * centos: いくつかのバージョンの yum のサポートに関する修正を行いました <!-- Fix support for some version of yum -->
+ * debian: GREP\_OPTIONS が設定されている場合の debootstrap に関する修正を行いました <!-- Fix debootrstap when GREP\_OPTIONS is set -->
+ * debian: dbus がインストールされていない場合のエラーを修正しました <!-- Fix errors when dbus isn't installed -->
+ * debian: ロケールを再設定するようにしました <!-- Reconfigure locales -->
+ * debian: unstable/sid の場合のセキュリティリポジトリをスキップするようにしました <!-- Skip the security mirror for unstable/sid -->
+ * fedora: セカンダリアーキテクチャのサポートを追加しました <!-- Support secondary architectures -->
+ * fedora: Fedora 20 用の古いリリースリポジトリを更新しました <!-- Update to the old release repository for Fedora 20 -->
+ * gentoo: /dev/mqueue と /dev/shm の扱いを修正しました <!-- Fix /dev/mqueue and /dev/shm handling -->
+ * opensuse: ビルドバージョンを決定するために rpm を使うようになりました <!-- Use rpm to determine the build version -->
+ * oracle: /dev/shm の扱いを修正しました <!-- Fix /dev/shm handling -->
+
+<!--
+Those stable fixes were brought to you by 31 individual contributors.
+-->
+これらの stable の修正は 31 名のコントリビュータによってなされました。
+
+### ダウンロード<!-- Downloads -->
+<!--
+The release tarballs may be found on our [download page](/lxc/downloads) and we expect most distributions  
+will very soon ship a packaged version of LXC 1.1.3.
+-->
+このリリースの tarball は [ダウンロードページ](/lxc/downloads) から取得できます。そして、各ディストリビューションがすぐに LXC 1.1.3 のパッケージをリリースするでしょう。
+
+<!--
+Should you be interested in individual changes or just looking at the detailed development history,  
+our stable branch is on [Github](https://github.com/lxc/lxc/tree/stable-1.1).
+-->
+個々の変更点に興味がある場合、そして開発の履歴を見たい場合、stable ブランチ (stable-1.1) は [Github](https://github.com/lxc/lxc/tree/stable-1.1) にあります。
+
+
 ## LXC 1.1.2 リリースのお知らせ <!-- LXC 1.1.2 release announcement --><span class="text-muted">2015 年 4 月 10 日 <!-- 10th of April 2015 --></span>
 <!--
 This is the second bugfix release for LXC 1.1.
@@ -265,7 +444,7 @@ Tests:
  * lxc-debian: Wheezy と Jessie で udev サービスのマスクをおこないました　<!-- mask both Wheezy and Jessie udev services -->
  * lxc-opensuse: openSUSE Tumbleweed 上でのコンテナ作成を無効化し、検出を改良しました。<!-- Disabling builds on openSUSE Tumbleweed, detection improved. -->
 
-Documentation:
+ドキュメント <!-- Documentation -->:
 
  * lxc(7) のカーネルと cgroup の情報を最新情報に修正 <!-- Fix the lxc manpage a bit -->
  * lxc-create の -t オプションを必須に変更 <!-- lxc-create -t option is not optional -->

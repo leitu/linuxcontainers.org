@@ -1,5 +1,289 @@
 ![Download icon](/static/img/containers.png)
 # News
+## LXD 0.21 release announcement<span class="text-muted">27th of October 2015</span>
+
+The main changes for this release are:
+
+ * Client is now buildable on Windows.
+ * Default LVM volume size has been reduced to 10GB.
+ * Command aliases can be setup in the client.
+ * "lxc info" now prints server information too.
+ * It's now possible to use a nested LXD on btrfs storage.
+
+Additionally:
+
+ * Various storage backend fixes
+ * Better error handling and error reporting
+ * A lot of bugfixes (no known bugs left at time of release)
+
+### Downloads
+The release tarballs can be found on our [download page](/lxd/downloads).
+
+
+## LXD 0.20 release announcement<span class="text-muted">14th of October 2015</span>
+
+The main changes for this release are:
+
+ * Container restart is now implemented as stop + start (reloads all config)
+ * Config key=value can now be passed at launch time using --config/-c
+ * A new "pause" command is now available to temporarily freeze a container
+ * Cached images are now private by default
+ * You can now publish a remote container into the local image store
+ * It is now possible to add character or block devices to a container
+ * The image size is now shown in the image list
+
+Additionally:
+
+ * Various storage backend fixes
+ * Better error handling and error reporting
+ * Improved testsuite
+ * A lot of bugfixes (no known bugs left at time of release)
+
+
+### Downloads
+The release tarballs can be found on our [download page](/lxd/downloads).
+
+
+## LXD 0.19 release announcement<span class="text-muted">29th of September 2015</span>
+
+The main changes for this release are:
+
+ * ZFS support
+ * Support for container nesting
+ * Allow setting multi-line configuration keys by reading from stdin (using "-" as the value)
+ * It's now possible to make an ephemeral copy of a container (-e/--ephemeral flag)
+ * Public read-only servers are now auto-detected (no more --public needed)
+ * lxd-images now supports updating existing images (when using the --sync flag)
+ * It is now possible to mark/unmark images as public (through the edit command)
+
+Additionally:
+
+ * A completely reworked testsuite
+ * Some refactoring in preparation for a Windows client
+ * Updated documentation and specifications
+ * A lot of bugfixes (no known bugs left at time of release)
+
+Note that due to an API implementation problem in past releases, older command line clients  
+will fail to interact with LXD 0.19's image store. Such clients should be upgraded to 0.19.
+
+
+### Downloads
+The release tarballs can be found on our [download page](/lxd/downloads).
+
+
+## LXD 0.18 release announcement<span class="text-muted">15th of September 2015</span>
+
+The main changes for this release are:
+
+ * lxc: Add a new --force-local argument
+ * lxc: Allow file push/pull using stdin/stdout
+ * lxc: Rework translation template
+ * lxd/core: Fix image creation of privileged containers
+ * lxd/core: implement per-container apparmor profiles
+ * lxd/core: implement per-container seccomp profiles
+ * lxd/core: Fix socket-activation on exit
+ * lxd/core: Add support for nested LXD
+ * lxd/btrfs: Fix shared mount detection on btrfs
+ * lxd: Implement new "shutdown" sub-command
+ * lxd: Implement new "activateifneeded" sub-command
+ * scripts: Add script to set up and delete LVM storage
+ * A bunch more fixes, tests and other improvements
+
+### Downloads
+The release tarballs can be found on our [download page](/lxd/downloads).
+
+
+## LXD 0.17 release announcement<span class="text-muted">1st of September 2015</span>
+
+The main changes for this release are:
+
+ * lxc: Add a new "lxc file edit" command
+ * lxc: Add support for public remotes
+ * lxc: Support adding a remote by its IPv6 address
+ * lxd/core: Fix building with Go 1.5
+ * lxd/core: Allow renaming snapshots
+ * lxd/core: Add a new /logs REST API to containers
+ * lxd/core: Export the storage backend name and version
+ * lxd/btrfs: Support for recursive subvolume snapshot and removal
+ * lxd/lvm: Add snapshot support
+ * lxd/lvm: Add container copy support
+ * lxd/lvm: Add container rename support
+ * lxd/lvm: Disallow changing LVM config if pool is in use.
+ * lxd/lvm: Document LVM config keys in specs
+ * lxd-images: Deprecate "lxd images import lxc"
+ * lxd-images: Print the manifest URL
+ * lxd-images: Default to the "releases" stream for Ubuntu images
+ * vagrant: Support running in vmware
+ * A bunch more fixes, tests and other improvements
+
+Note that as of this release, the use of "lxd-images import lxc" is
+deprecated in favor of using the images.linuxcontainers.org remote.
+
+For example:
+
+    lxd-images import lxc centos 7 amd64 --alias centos
+    lxc launch centos my-container
+
+Now becomes:
+
+    lxc remote add images images.linuxcontainers.org    # one-time setup
+    lxc launch images:centos/7/amd64 my-container
+
+### Downloads
+The release tarballs can be found on our [download page](/lxd/downloads).
+
+
+## LXD 0.16 release announcement<span class="text-muted">18th of August 2015</span>
+
+The main changes for this release are:
+
+ * Added container auto-start support, includes start delay and start ordering
+ * Support copying container and images from a local (unix socket) to a remote (https) daemon
+ * Remap the unprivileged containers when transferring between hosts with differing allocations
+ * Remap existing containers when their idmap changes or when they're switched between privileged and unprivileged
+ * The EDITOR variable is now properly respected
+ * When starting a container from a remote image, the cached image now expires
+ * New --public flag added to lxd-images
+ * Allow --stateful snapshots
+ * And a lot of bugfixes, performance and test improvements
+
+### Downloads
+The release tarballs can be found on our [download page](/lxd/downloads).
+
+
+## LXD 0.15 release announcement<span class="text-muted">4th of August 2015</span>
+
+The main changes for this release are:
+
+ * Added storage and network hotplug
+ * Improved logging
+ * Improved LVM and btrfs backend
+ * /dev/lxd now works with gccgo
+ * Added new environment.\* configuration namespace to set environment variables inside the container
+ * Init and launch now print the container name
+ * lxd-images now defaults to Ubuntu 14.04 LTS
+ * --tcp has now been replaced by the core.https\_address config option
+ * Improved LVM and btrfs support
+ * Add some LXD speed tests
+ * New "make client" target to only build the LXD client (use this for MacOS X)
+ * Introduce new scripts and http proxy code for a lxdbr0 bridge
+ * Rework internal storage representation
+ * Rework internal container representation
+ * Rework internal database representation
+ * Various testsuite improvements
+ * A lot more bugfixes and other small improvements
+
+This release moves containers from /var/lib/lxd/lxc to /var/lib/lxd/containers  
+and snapshots from /var/lib/lxd/lxc/\<name\>/snapshots to /var/lib/lxd/snapshots/\<name\>.
+To do so, LXD will stop all containers on the next startup, then start them again  
+after moving everything to the new location.
+
+The --tcp daemon option has been replaced by the core.https\_address option allowing users  
+to change the address and port LXD binds to. Changes are now applied immediately.
+
+
+### Downloads
+The release tarballs can be found on our [download page](/lxd/downloads).
+
+
+## LXD 0.14 release announcement<span class="text-muted">21st of July 2015</span>
+
+The main changes for this release are:
+
+ * Improve command line help
+ * Improve LVM backend (only mount/umount storage while the container is running, ...)
+ * Rework certificate handling (user interface, generation and recursive query support)
+ * Fix a publish bug that would lead to invalid images
+ * Fix IPv6 support of container copy/migration
+ * New logging code (syslog support, logfile support and log levels)
+ * Implement support for "split" images (separate metadata and rootfs)
+ * Add download progress tracking to lxd-images
+ * Detect and report architecture mismatches
+ * Direct image copy between servers is now supported
+ * /dev/lxd now supports the meta-data interface
+ * Ubuntu cloud images may now be imported using lxd-images
+ * Other code improvements (golint, refactoring, compression handling, tests, ...)
+
+This is the first LXD release to support the official Ubuntu Cloud images.  
+At this time, those are only available for the current development release (wily)  
+but we hope to have images for all supported Ubuntu releases over the next few days.
+
+To import one of those images into your LXD image store, run:
+
+    lxd-images import ubuntu --alias ubuntu-cloud
+
+### Downloads
+The release tarballs can be found on our [download page](/lxd/downloads).
+
+
+## LXD 0.13 release announcement<span class="text-muted">7th of July 2015</span>
+
+The main changes for this release are:
+
+ * Add support for LVM thin pools as a storage backend.
+ * Add basic bash completion
+ * Implement the "publish" command, turning a container into an image
+ * Improve file push/pull reliability
+ * Make it possible to start/stop/restart/delete multiple containers at once
+ * Fix build under gccgo (currently disabling /dev/lxd in such case)
+ * Improve btrfs performance during container copy
+ * A lot of other bugfixes, minor improvements and cleanups
+
+This is the first release of LXD where the client may be built on operating systems  
+other than Linux. At the moment, MacOS X has been confirmed to work and Windows is known not to work,  
+other Unix may work too but haven't been tested.
+
+### Downloads
+The release tarballs can be found on our [download page](/lxd/downloads).
+
+
+## LXD 0.12 release announcement<span class="text-muted">23rd of June 2015</span>
+
+The main changes for this release are:
+
+ * Implement /dev/lxd
+ * Fix initial console size on exec
+ * Reduce memory footprint of migration
+ * Use user readable date strings in the API
+ * Allow unset for server config keys
+ * Fix various race conditions with exec
+ * Switch to a pure-go gettext implementation
+ * Set proper Content-Type on all replies
+ * Show the host veth device in info
+ * Some changes to better support Snappy ubuntu
+ * Various other bugfixes
+ * Improve help messages
+ * Improve testsuite
+ * Initial German translation
+
+### Downloads
+The release tarballs can be found on our [download page](/lxd/downloads).
+
+
+## LXD 0.11 release announcement<span class="text-muted">9th of June 2015</span>
+
+The main changes for this release are:
+
+ * File templating support in images
+ * Socket activation with Systemd
+ * Support for clean shutdown and container restart on startup
+ * Implement "lxc image show"
+ * Implement SIGWINCH support in exec (terminal resize event)
+ * Make all configuration keys spec-compliant
+ * Fix "lxc image edit"
+ * Allow running the testsuite without any outside connectivity
+ * Improve testsuite output to be more readable
+ * And the usual set of bugfixes.
+
+
+NOTE: The key to set a server password is now, core.trust\_password. 
+On first startup of LXD 0.11, all the old supported names will be converted to the official one.
+
+
+### Downloads
+The release tarballs can be found on our [download page](/lxd/downloads).
+
+
 ## LXD 0.10 release announcement<span class="text-muted">26th of May 2015</span>
 
 The main changes for this release are:

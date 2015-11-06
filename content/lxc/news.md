@@ -1,5 +1,161 @@
 ![Download icon](/static/img/containers.png)
 # News
+## LXC 1.1.4 release announcement<span class="text-muted">6th of October 2015</span>
+
+Important:
+
+ * Security fix for CVE-2015-1335
+
+Core:
+
+ * Check for NULL pointers before calling setenv()
+ * Factorize handle of create=dir and create=file
+ * Refactor and factorize mount entries
+ * Split handle of lxc.mount* with 3 functions
+ * init: Support older apparmor
+ * Make LXC_CLONE_KEEPNAME work
+ * Fix automatic mounts without a rootfs
+ * Fix container creation without a rootfs
+ * Fix /dev symlinks without a rootfs
+ * Allow autodev without a rootfs
+ * Only mount /proc if needed, even without a rootfs
+ * When creating container, save configuration if rootfs already exists
+ * Fix verification of start hook without a rootfs
+ * Tear down network devices during container halt
+ * coverity: fix mount_entry_create_dir_file
+ * Add a nesting.conf which can be included to support nesting containers
+ * Fix reallocation calculation
+ * Add bdev_destroy() and bdev_destroy_wrapper()
+ * overlayfs_clone: rsync the mounted rootfs
+ * lxc_rmdir_onedev: don't fail if path doesn't exist
+ * overlayfs_mount: create delta dir if it doesn't exist
+ * ovl_rsync: make sure to umount
+ * Destroy bdevs using bdev_destroy() from bdev.h
+ * Fix indentation
+ * cmds: fix abstract socket length problem
+ * coverity: drop second (redundant) block
+ * Check return value of snprintf in mount_proc_if_needed()
+ * Add CAP_AUDIT_READ
+ * Add CAP_BLOCK_SUSPEND
+ * Free allocated memory on failure (v2)
+ * Define O_PATH and O_NOFOLLOW for Android
+ * seccomp: add aarch64 support
+ * lxc-test-symlink: add a test using absolute symlink
+ * lxc_mount_auto_mounts: fix weirdness
+ * Fix the type of i in lxc_mount_auto_mounts
+
+Tools:
+
+ * Fix grammar in some of the executables "NAME for name of the container" becomes "NAME of the container"
+ * lxc-checkconfig: add some more config options
+ * lxc-start-ephemeral: Parse passwd directly
+
+Documentation:
+
+ * Add long option for -P in documentation
+ * Add doc for optional, create=dir and create=file in lxc.container.conf man
+ * Update lxc.cgroup.use in lxc.system.conf(5)
+ * Add the description of common options in lxc-destroy(1)
+ * Add LXC-specific mount option in Japanese lxc.container.conf(5)
+
+Templates:
+
+ * lxc-debian: support stretch (Debian 9) images
+ * lxc-debian: allow not including contrib/non-free
+ * lxc-debian: Test dpkg for multiarch support
+ * lxc-debian: Alternative test for dpkg multiarch support in lxc-debian template
+ * lxc-ubuntu: ubuntu.common.conf: mount /dev/mqueue
+ * lxc-debian: We should only check the kernel architecture.
+ * lxc-alpine: avoid GNU BRE extensions for better portability
+ * lxc-alpine: use getopt to parse options
+
+Those stable fixes were brought to you by 14 individual contributors.
+
+### Downloads
+The release tarballs may be found on our [download page](/lxc/downloads) and we expect most distributions  
+will very soon ship a packaged version of LXC 1.1.4.
+
+Should you be interested in individual changes or just looking at the detailed development history,  
+our stable branch is on [Github](https://github.com/lxc/lxc/tree/stable-1.1).
+
+
+## LXC 1.1.3 release announcement<span class="text-muted">14th of August 2015</span>
+This is the third bugfix release for LXC 1.1.
+
+### Changes
+
+Important:
+
+ * Security fix for CVE-2015-1331
+ * Security fix for CVE-2015-1334
+ * Fix an ABI regression in LXC 1.1 compared to LXC 1.0.  
+   Fixing this unfortunately means that binaries built against LXC
+   1.1.0, 1.1.1 and 1.1.2 will need rebuilding against LXC 1.1.3.  
+   This is however preferable to not having backward compatibility with
+   binaries built for LXC 1.0 and its bugfix releases.
+
+Core:
+
+ * apparmor: Call /lib/apparmor/profile-load directly instead of the wrapper
+ * aufs: Support unprivileged containers
+ * bash: Use POSIX-compliant function names
+ * cgmanager: Respect lxc.cgroup.use
+ * cgmanager: Use listcontrollers instead of /proc/self/cgroups
+ * cgroup: Apply the memory restrictions in the right order
+ * clone: Properly handle filesystem capabilities
+ * clone: Properly handle hardlinks
+ * core: Container logging is now thread safe
+ * destroy: Properly remove btrfs subvolumes
+ * lua: Support Lua 5.3
+ * lxc-net: Fix several bugs
+ * lxc-net: Support IPv6
+ * lxc-net: Use iproute instead of ifconfig
+ * monitor: Fix race conditions in the monitor container interface
+ * network: Properly handle veth setup on reboot
+ * overlayfs: Create the workdir if missing
+ * seccomp: simplify the setup code and fix rule parsing
+ * start: Always close fds 0-2 when daemonized
+ * start: Better handle some daemonized startup failures
+ * start: Improve error message when lxc-init can't be found
+ * start: In userns, ignore umount failures for /proc
+ * start: When available, use /dev/loop-control to configure the loop devices
+ * systemd: Fix startup race condition between lxc-containers and lxc-net
+ * Several fixes for small memory leaks (thanks to Coverity)
+ * Various improvements to the checkpoint/restore feature
+ * Various documentation improvements
+ * Various tests improvements
+
+Commands:
+
+ * lxc-autostart: Fix broken output when stdout isn't a tty
+ * lxc-checkconfig: support newer kernels
+
+Templates:
+
+ * alpine: Fix /dev/shm handling
+ * alpine: Fix verification of the apk binary
+ * centos: Fix support for some version of yum
+ * debian: Fix debootrstap when GREP\_OPTIONS is set
+ * debian: Fix errors when dbus isn't installed
+ * debian: Reconfigure locales
+ * debian: Skip the security mirror for unstable/sid
+ * fedora: Support secondary architectures
+ * fedora: Update to the old release repository for Fedora 20
+ * gentoo: Fix /dev/mqueue and /dev/shm handling
+ * opensuse: Use rpm to determine the build version
+ * oracle: Fix /dev/shm handling
+
+
+Those stable fixes were brought to you by 31 individual contributors.
+
+### Downloads
+The release tarballs may be found on our [download page](/lxc/downloads) and we expect most distributions  
+will very soon ship a packaged version of LXC 1.1.3.
+
+Should you be interested in individual changes or just looking at the detailed development history,  
+our stable branch is on [Github](https://github.com/lxc/lxc/tree/stable-1.1).
+
+
 ## LXC 1.1.2 release announcement<span class="text-muted">10th of April 2015</span>
 This is the second bugfix release for LXC 1.1.
 

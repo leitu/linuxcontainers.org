@@ -19,23 +19,16 @@ import jinja2
 import json
 import markdown
 import markdown.extensions.codehilite
+import markdown.extensions.toc
 import pygments.formatters
 import os
+import re
 import shutil
 import subprocess
 
 # Variables
 CONTENT_PATH = "content"
 TARGET_PATH = "output"
-
-
-def pretty_print(html):
-    """
-        Returns a cleanly indented version of the provided html code.
-    """
-
-    soup = bs4.BeautifulSoup(html)
-    return soup.prettify(formatter="html")
 
 
 def content_path(filename):
@@ -147,181 +140,213 @@ def gen_menu(structure, override, prefix):
     return menu
 
 
-def gen_pages(structure, override, prefix, **variables):
-    for entry in structure:
-        item = dict(entry)
+def md2html(path):
+    """
+        Given path to Markdown file, return rendered HTML content.
+    """
+    hilite_config = [('linenums', None),
+                     ('guess_lang', False),
+                     ('noclasses', False)]
+    codehilite = markdown.extensions.codehilite.makeExtension(hilite_config)
 
-        # Apply the override (if any)
-        item.update(override.get(entry['path'], {}))
+    # Using toc extension to generate HTML anchors for paragraphs
+    anchors = markdown.extensions.toc.TocExtension(
+        configs=[("permalink", 1)])
 
-        # Store the original path (required for translations)
-        page_raw_path = item['path']
+    with open(path, "r") as fd:
+        return markdown.markdown(fd.read(), extensions=[codehilite, anchors])
 
-        if prefix:
-            # Prepend the prefix to all internal links
-            item['path'] = "%s%s" % (prefix, item['path'])
 
-        if "generator" not in item or item['generator'] == "link":
-            # Skip the virtual entries (external links, splitters)
-            continue
+def download_sort_key(download_name):
+    """
+        Given a download target filename, return its relative sort order.
+        Sorting alphabetically will mix up version numbers.  This assumes
+        all downloads in the same list have a similar delimiter structure;
+        otherwise the ordering may be wrong for some other reason.
+    """
 
-        # Generate the target path and create any missing directory
-        output_path = "%s%s/index.html" % (TARGET_PATH, item['path'])
-        if not os.path.exists(os.path.dirname(output_path)):
-            os.makedirs(os.path.dirname(output_path))
+    # Sort integer-y tokens in numeric order, everything else alphabetically.
+    # Additionally, sort alphabetic tokens before numeric ones to handle
+    # differing numbers of version components (even though this may not be
+    # necessary so far).
+    def token_key(token):
+        if re.match(r'\A\d+\Z', token):
+            return (1, int(token))
+        else:
+            return (0, token)
 
-        # Generate the page content
-        content = ""
-        template = "page.tpl.html"
-        hilite_config = [('linenums', None),
-                         ('guess_lang', False),
-                         ('noclasses', False)]
-        codehilite = markdown.extensions.codehilite.makeExtension(
-            hilite_config)
+    # Treat the entire filename as tokens delimited by dash or dot.
+    return [token_key(token) for token in re.split(r'[-.]', download_name)]
 
-        if item['generator'] == "html":
-            with open(content_path(item['meta']['input']), "r") as fd:
-                content = fd.read()
-        elif item['generator'] == "markdown":
-            with open(content_path(item['meta']['input']), "r") as fd:
-                content = markdown.markdown(fd.read(), extensions=[codehilite])
-        elif item['generator'] == "downloads":
-            # Support a markdown description before the download table
-            if "input" in item['meta']:
-                with open(content_path(item['meta']['input']), "r") as fd:
-                    content = markdown.markdown(fd.read(),
-                                                extensions=[codehilite])
 
-            downloads = []
-            download_path = item['meta']['dir'].lstrip("/")
-            for entry in sorted(os.listdir(download_path), reverse=True):
-                if not os.path.isfile("%s/%s" % (download_path, entry)):
+def gen_page(entry, override, prefix, **variables):
+    item = dict(entry)
+
+    # Apply the override (if any)
+    item.update(override.get(entry['path'], {}))
+
+    # Store the original path (required for translations)
+    page_raw_path = item['path']
+
+    if prefix:
+        # Prepend the prefix to all internal links
+        item['path'] = "%s%s" % (prefix, item['path'])
+
+    if "generator" not in item or item['generator'] == "link":
+        # Skip the virtual entries (external links, splitters)
+        return
+
+    # Generate the target path and create any missing directory
+    output_path = "%s%s/index.html" % (TARGET_PATH, item['path'])
+    if not os.path.exists(os.path.dirname(output_path)):
+        os.makedirs(os.path.dirname(output_path))
+
+    # Process directories and aliases and return
+    if item['generator'] == "directory":
+        os.rmdir("%s/%s" % (TARGET_PATH, item['path']))
+        shutil.copytree(content_path(item['meta']['input']),
+                        "%s/%s" % (TARGET_PATH, item['path']))
+        return
+    elif item['generator'] == "alias":
+        os.symlink("../%s/index.html" % (item['meta']['target']
+                                         .lstrip("/")),
+                   "%s/%s/index.html" % (TARGET_PATH, item['path']))
+        return
+
+    # Generate the page content
+    content = ""
+    template = "page.tpl.html"
+
+    if item['generator'] == "html":
+        with open(content_path(item['meta']['input']), "r") as fd:
+            content = fd.read()
+    elif item['generator'] == "markdown":
+        content = md2html(content_path(item['meta']['input']))
+    elif item['generator'] == "downloads":
+        # Support a markdown description before the download table
+        if "input" in item['meta']:
+            content = md2html(content_path(item['meta']['input']))
+
+        downloads = []
+        download_path = item['meta']['dir'].lstrip("/")
+        for entry in sorted(os.listdir(download_path),
+                            key=download_sort_key, reverse=True):
+            if not os.path.isfile("%s/%s" % (download_path, entry)):
+                continue
+
+            if entry.startswith(".") or entry.endswith(".asc"):
+                continue
+
+            fs_path = "%s/%s" % (download_path, entry)
+
+            download = {}
+            download['filename'] = entry
+            download['path'] = "%s/%s" % (item['meta']['dir'], entry)
+            download['signame'] = None
+            download['sigpath'] = None
+            if os.path.exists("%s.asc" % fs_path):
+                download['signame'] = "%s.asc" % download['filename']
+                download['sigpath'] = "%s.asc" % download['path']
+            download['size'] = "%sK" % \
+                (round(os.stat(fs_path).st_size / 1024, 2))
+
+            downloads.append(download)
+
+        variables['downloads'] = downloads
+        template = "downloads.tpl.html"
+    elif item['generator'] == "manpages":
+        man_path = item['meta']['dir'].lstrip("/")
+
+        for entry in sorted(os.listdir(man_path)):
+            if not os.path.isfile("%s/%s" % (man_path, entry)):
+                continue
+
+            if entry.startswith("."):
+                continue
+
+            section = entry.split(".")[-1]
+
+            output_man_path = "%s%s/man%s/%s.html" % (TARGET_PATH,
+                                                      item['path'],
+                                                      section, entry)
+
+            if not os.path.exists(os.path.dirname(output_man_path)):
+                os.makedirs(os.path.dirname(output_man_path))
+
+            man2html = subprocess.Popen(["man2html", "-r",
+                                         "%s/%s" % (man_path, entry)],
+                                        stdout=subprocess.PIPE,
+                                        universal_newlines=True)
+            man2html.wait()
+            soup = bs4.BeautifulSoup(man2html.stdout.read())
+
+            # Remove all broken links
+            for link in soup.findAll("a"):
+                if not link.get("href", None):
                     continue
 
-                if entry.startswith(".") or entry.endswith(".asc"):
+                if link['href'] in ("../index.html",):
                     continue
 
-                fs_path = "%s/%s" % (download_path, entry)
-
-                download = {}
-                download['filename'] = entry
-                download['path'] = "%s/%s" % (item['meta']['dir'], entry)
-                download['signame'] = None
-                download['sigpath'] = None
-                if os.path.exists("%s.asc" % fs_path):
-                    download['signame'] = "%s.asc" % download['filename']
-                    download['sigpath'] = "%s.asc" % download['path']
-                download['size'] = "%sK" % \
-                    (round(os.stat(fs_path).st_size / 1024, 2))
-
-                downloads.append(download)
-
-            variables['downloads'] = downloads
-            template = "downloads.tpl.html"
-        elif item['generator'] == "manpages":
-            man_path = item['meta']['dir'].lstrip("/")
-
-            for entry in sorted(os.listdir(man_path)):
-                if not os.path.isfile("%s/%s" % (man_path, entry)):
+                if link['href'].startswith("mailto"):
                     continue
 
-                if entry.startswith("."):
+                if link['href'].startswith("#"):
                     continue
 
-                section = entry.split(".")[-1]
-
-                output_man_path = "%s%s/man%s/%s.html" % (TARGET_PATH,
-                                                          item['path'],
-                                                          section, entry)
-
-                if not os.path.exists(os.path.dirname(output_man_path)):
-                    os.makedirs(os.path.dirname(output_man_path))
-
-                man2html = subprocess.Popen(["man2html", "-r",
-                                             "%s/%s" % (man_path, entry)],
-                                            stdout=subprocess.PIPE,
-                                            universal_newlines=True)
-                man2html.wait()
-                soup = bs4.BeautifulSoup(man2html.stdout.read())
-
-                # Remove all broken links
-                for link in soup.findAll("a"):
-                    if not link.get("href", None):
-                        continue
-
-                    if link['href'] in ("../index.html",):
-                        continue
-
-                    if link['href'].startswith("mailto"):
-                        continue
-
-                    if link['href'].startswith("#"):
-                        continue
-
-                    filename = link['href'].split("/")[-1].split(".html")[0]
-                    if filename in os.listdir(man_path):
-                        continue
-
-                    link.replace_with_children()
-
-                contents = soup.findAll("body")[0].contents
-                content = "".join([str(entry)
-                                   for entry in contents[1:]])
-
-                content = "<div class='manpage'>%s</div>" % content
-
-                entry_link = "/%s/man%s/%s.html" % (
-                    item['path'].lstrip("/"), section, entry)
-
-                template = env.get_template(template)
-                with open(output_man_path, "w+") as fd:
-                    fd.write(pretty_print(
-                        template.render(page_path=entry_link,
-                                        page_raw_path="%s/man%s/%s.html" % (
-                                            page_raw_path, section, entry),
-                                        page_title="%s - %s" % (item['title'],
-                                                                entry),
-                                        page_menu=item['menu'] + [entry],
-                                        content=content,
-                                        **variables)))
-
-            content = "<ul>"
-            for entry in sorted(os.listdir(man_path)):
-                if not os.path.isfile("%s/%s" % (man_path, entry)):
+                filename = link['href'].split("/")[-1].split(".html")[0]
+                if filename in os.listdir(man_path):
                     continue
 
-                if entry.startswith("."):
-                    continue
+                link.replace_with_children()
 
-                section = entry.split(".")[-1]
-                entry_link = "/%s/man%s/%s.html" % (
-                    item['path'].lstrip("/"), section, entry)
+            contents = soup.findAll("body")[0].contents
+            content = "".join([str(entry)
+                               for entry in contents[1:]])
 
-                content += "<li><a href=\"%s\">%s</a></li>" % (entry_link,
-                                                               entry)
-            content += "</ul>"
+            content = "<div class='manpage'>%s</div>" % content
 
-        elif item['generator'] == "directory":
-            os.rmdir("%s/%s" % (TARGET_PATH, item['path']))
-            shutil.copytree(content_path(item['meta']['input']),
-                            "%s/%s" % (TARGET_PATH, item['path']))
-            continue
-        elif item['generator'] == "alias":
-            os.symlink("../%s/index.html" % (item['meta']['target']
-                                             .lstrip("/")),
-                       "%s/%s/index.html" % (TARGET_PATH, item['path']))
-            continue
+            entry_link = "/%s/man%s/%s.html" % (
+                item['path'].lstrip("/"), section, entry)
 
-        # Pass all the variables to the template and generate the html
-        template = env.get_template(template)
-        with open(output_path, "w+") as fd:
-            fd.write(pretty_print(
-                template.render(page_path=item['path'],
-                                page_raw_path=page_raw_path,
-                                page_title=item['title'],
-                                page_menu=item['menu'],
-                                content=content,
-                                **variables)))
+            template = env.get_template(template)
+            with open(output_man_path, "w+") as fd:
+                fd.write(
+                    template.render(page_path=entry_link,
+                                    page_raw_path="%s/man%s/%s.html" % (
+                                        page_raw_path, section, entry),
+                                    page_title="%s - %s" % (item['title'],
+                                                            entry),
+                                    page_menu=item['menu'] + [entry],
+                                    content=content,
+                                    **variables))
+
+        content = "<ul>"
+        for entry in sorted(os.listdir(man_path)):
+            if not os.path.isfile("%s/%s" % (man_path, entry)):
+                continue
+
+            if entry.startswith("."):
+                continue
+
+            section = entry.split(".")[-1]
+            entry_link = "/%s/man%s/%s.html" % (
+                item['path'].lstrip("/"), section, entry)
+
+            content += "<li><a href=\"%s\">%s</a></li>" % (entry_link,
+                                                           entry)
+        content += "</ul>"
+
+    # Pass all the variables to the template and generate the html
+    template = env.get_template(template)
+    with open(output_path, "w+") as fd:
+        fd.write(
+            template.render(page_path=item['path'],
+                            page_raw_path=page_raw_path,
+                            page_title=item['title'],
+                            page_menu=item['menu'],
+                            content=content,
+                            **variables))
 
 
 # Load the configuration and structure
@@ -359,6 +384,7 @@ for language in config['languages']:
     menu = gen_menu(structure, override, lang_prefix)
 
     # Generate all the pages
-    gen_pages(structure, override, lang_prefix,
-              menu=menu, page_language=language,
-              languages=config['languages'])
+    for entry in structure:
+        gen_page(entry, override, lang_prefix,
+                 menu=menu, page_language=language,
+                 languages=config['languages'])

@@ -1,0 +1,326 @@
+[
+    {"path": "/",
+     "title": "",
+     "menu": ["首页"],
+     "generator": "html",
+     "meta": {"input": "index.cns.html"}},
+
+
+
+    {"path": "/lxc",
+     "generator": "alias",
+     "meta": {"target": "/lxc/introduction"}},
+
+    {"path": "/lxc/introduction",
+     "title": "LXC - 介绍",
+     "menu": ["LXC", "介绍"],
+     "generator": "markdown",
+     "meta": {"input": "lxc/introduction.cns.md"}},
+
+    {"path": "/lxc/news",
+     "title": "LXC - 新闻",
+     "menu": ["LXC", "新闻"],
+     "generator": "markdown",
+     "meta": {"input": "lxc/news.cns.md"}},
+
+    {"path": "/lxc/getting-started",
+     "title": "LXC - 入门",
+     "menu": ["LXC", "入门"],
+     "generator": "markdown",
+     "meta": {"input": "lxc/getting-started.cns.md"}},
+
+    {"path": "/lxc/documentation",
+     "title": "LXC - 文档",
+     "menu": ["LXC", "文档"],
+     "generator": "markdown",
+     "meta": {"input": "lxc/documentation.cns.md"}},
+
+    {"path": "/lxc/apidoc",
+     "generator": "directory",
+     "meta": {"input": "lxc/apidoc"}},
+
+    {"path": "/lxc/manpages",
+     "title": "LXC - 命令帮助",
+     "menu": ["LXC", "命令帮助"],
+     "generator": "manpages",
+     "meta": {"dir": "/manpages/lxc"}},
+
+    {"path": "/lxc/contribute",
+     "title": "LXC - 贡献",
+     "menu": ["LXC", "贡献代码"],
+     "generator": "markdown",
+     "meta": {"input": "lxc/contribute.cns.md"}},
+
+    {"path": "/lxc/security",
+     "title": "LXC - 安全",
+     "menu": ["LXC", "安全"],
+     "generator": "markdown",
+     "meta": {"input": "lxc/security.cns.md"}},
+
+    {"path": "/lxc/downloads",
+     "title": "LXC - 下载",
+     "menu": ["LXC", "下载"],
+     "generator": "downloads",
+     "meta": {"dir": "/downloads/lxc",
+              "input": "lxc/downloads.cns.md"}},
+
+    {"path": "/lxc/external-resources",
+     "menu": ["LXC", "外部资源"]},
+
+    {"path": "/lxc/articles",
+     "title": "LXC - 文章",
+     "menu": ["LXC", "文章"],
+     "generator": "markdown",
+     "meta": {"input": "lxc/articles.cns.md"}},
+
+    {"path": "/lxc/mailing-lists",
+     "menu": ["LXC", "邮箱列表"],
+     "generator": "link",
+     "meta": {"url": "https://lists.linuxcontainers.org"}},
+
+    {"path": "/lxc/irc",
+     "menu": ["LXC", "IRC"],
+     "generator": "link",
+     "meta": {"url": "https://webchat.freenode.net/?channels=#lxcontainers"}},
+
+    {"path": "/lxc/github",
+     "menu": ["LXC", "Github"],
+     "generator": "link",
+     "meta": {"url": "https://github.com/lxc/lxc"}},
+
+    {"path": "/lxc/jenkins-ci",
+     "menu": ["LXC", "Jenkins CI"],
+     "generator": "link",
+     "meta": {"url": "https://jenkins.linuxcontainers.org/view/LXC/"}},
+
+    {"path": "/lxc/travis-ci",
+     "menu": ["LXC", "Travis CI"],
+     "generator": "link",
+     "meta": {"url": "https://travis-ci.org/lxc/lxc"}},
+
+
+
+    {"path": "/lxd",
+     "generator": "alias",
+     "meta": {"target": "/lxd/introduction"}},
+
+    {"path": "/lxd/introduction",
+     "title": "LXD - 介绍",
+     "menu": ["LXD", "介绍"],
+     "generator": "markdown",
+     "meta": {"input": "lxd/introduction.cns.md"}},
+
+    {"path": "/lxd/news",
+     "title": "LXD - 新闻",
+     "menu": ["LXD", "新闻"],
+     "generator": "markdown",
+     "meta": {"input": "lxd/news.cns.md"}},
+
+    {"path": "/lxd/getting-started-cli",
+     "title": "LXD - 入门 - 命令行",
+     "menu": ["LXD", "入门 - 命令行"],
+     "generator": "markdown",
+     "meta": {"input": "lxd/getting-started-cli.cns.md"}},
+
+    {"path": "/lxd/getting-started-openstack",
+     "title": "LXD - 入门 - OpenStack",
+     "menu": ["LXD", "入门 - OpenStack"],
+     "generator": "markdown",
+     "meta": {"input": "lxd/getting-started-openstack.cns.md"}},
+
+    {"path": "/lxd/rest-api",
+     "title": "LXD - REST API",
+     "menu": ["LXD", "REST API"],
+     "generator": "markdown",
+     "meta": {"input": "lxd/rest-api.cns.md"}},
+
+    {"path": "/lxd/contribute",
+     "title": "LXD - 贡献",
+     "menu": ["LXD", "贡献代码"],
+     "generator": "markdown",
+     "meta": {"input": "lxd/contribute.cns.md"}},
+
+    {"path": "/lxd/downloads",
+     "title": "LXD - 下载",
+     "menu": ["LXD", "下载"],
+     "generator": "downloads",
+     "meta": {"dir": "/downloads/lxd",
+              "input": "lxd/downloads.cns.md"}},
+
+    {"path": "/lxd/try-it",
+     "title": "LXD - 在线体验",
+     "menu": ["LXD", "在线体验"],
+     "generator": "html",
+     "meta": {"input": "lxd/try-it.html"}},
+
+    {"path": "/lxd/external-resources",
+     "menu": ["LXD", "外部资源"]},
+
+    {"path": "/lxd/product",
+     "menu": ["LXD", "产品页面"],
+     "generator": "link",
+     "meta": {"url": "http://www.ubuntu.com/cloud/tools/lxd"}},
+
+    {"path": "/lxd/articles",
+     "title": "LXD - 文章与视频",
+     "menu": ["LXD", "文章与视频"],
+     "generator": "markdown",
+     "meta": {"input": "lxd/articles.cns.md"}},
+
+    {"path": "/lxd/mailing-lists",
+     "menu": ["LXD", "邮箱列表"],
+     "generator": "link",
+     "meta": {"url": "https://lists.linuxcontainers.org"}},
+
+    {"path": "/lxd/irc",
+     "menu": ["LXD", "IRC"],
+     "generator": "link",
+     "meta": {"url": "https://webchat.freenode.net/?channels=#lxcontainers"}},
+
+    {"path": "/lxd/github",
+     "menu": ["LXD", "Github"],
+     "generator": "link",
+     "meta": {"url": "https://github.com/lxc/lxd"}},
+
+    {"path": "/lxd/travis-ci",
+     "menu": ["LXD", "Travis CI"],
+     "generator": "link",
+     "meta": {"url": "https://travis-ci.org/lxc/lxd"}},
+
+
+    {"path": "/lxcfs",
+     "generator": "alias",
+     "meta": {"target": "/lxcfs/introduction"}},
+
+    {"path": "/lxcfs/introduction",
+     "title": "LXCFS - 介绍",
+     "menu": ["LXCFS", "介绍"],
+     "generator": "markdown",
+     "meta": {"input": "lxcfs/introduction.cns.md"}},
+
+    {"path": "/lxcfs/news",
+     "title": "LXCFS - 新闻",
+     "menu": ["LXCFS", "新闻"],
+     "generator": "markdown",
+     "meta": {"input": "lxcfs/news.cns.md"}},
+
+    {"path": "/lxcfs/getting-started",
+     "title": "LXCFS - 入门",
+     "menu": ["LXCFS", "入门"],
+     "generator": "markdown",
+     "meta": {"input": "lxcfs/getting-started.cns.md"}},
+
+    {"path": "/lxcfs/manpages",
+     "title": "LXCFS - 命令帮助",
+     "menu": ["LXCFS", "命令帮助"],
+     "generator": "manpages",
+     "meta": {"dir": "/manpages/lxcfs"}},
+
+    {"path": "/lxcfs/contribute",
+     "title": "LXCFS - 贡献代码",
+     "menu": ["LXCFS", "贡献代码"],
+     "generator": "markdown",
+     "meta": {"input": "lxcfs/contribute.cns.md"}},
+
+    {"path": "/lxcfs/downloads",
+     "title": "LXCFS - 下载",
+     "menu": ["LXCFS", "下载"],
+     "generator": "downloads",
+     "meta": {"dir": "/downloads/lxcfs",
+              "input": "lxcfs/downloads.cns.md"}},
+
+    {"path": "/lxcfs/external-resources",
+     "menu": ["LXCFS", "外部资源"]},
+
+    {"path": "/lxcfs/mailing-lists",
+     "menu": ["LXCFS", "邮箱列表"],
+     "generator": "link",
+     "meta": {"url": "https://lists.linuxcontainers.org"}},
+
+    {"path": "/lxcfs/irc",
+     "menu": ["LXCFS", "IRC"],
+     "generator": "link",
+     "meta": {"url": "https://webchat.freenode.net/?channels=#lxcontainers"}},
+
+    {"path": "/lxcfs/github",
+     "menu": ["LXCFS", "Github"],
+     "generator": "link",
+     "meta": {"url": "https://github.com/lxc/lxcfs"}},
+
+
+    {"path": "/cgmanager",
+     "generator": "alias",
+     "meta": {"target": "/cgmanager/introduction"}},
+
+    {"path": "/cgmanager/introduction",
+     "title": "CGManager - 介绍",
+     "menu": ["CGManager", "介绍"],
+     "generator": "markdown",
+     "meta": {"input": "cgmanager/introduction.cns.md"}},
+
+    {"path": "/cgmanager/news",
+     "title": "CGManager - 新闻",
+     "menu": ["CGManager", "新闻"],
+     "generator": "markdown",
+     "meta": {"input": "cgmanager/news.cns.md"}},
+
+    {"path": "/cgmanager/getting-started",
+     "title": "CGManager - 入门",
+     "menu": ["CGManager", "入门"],
+     "generator": "markdown",
+     "meta": {"input": "cgmanager/getting-started.cns.md"}},
+
+    {"path": "/cgmanager/dbus-api",
+     "title": "CGManager - D-Bus API",
+     "menu": ["CGManager", "D-Bus API"],
+     "generator": "markdown",
+     "meta": {"input": "cgmanager/dbus-api.cns.md"}},
+
+    {"path": "/cgmanager/manpages",
+     "title": "CGManager - 命令帮助",
+     "menu": ["CGManager", "命令帮助"],
+     "generator": "manpages",
+     "meta": {"dir": "/manpages/cgmanager"}},
+
+    {"path": "/cgmanager/contribute",
+     "title": "CGManager - 贡献代码",
+     "menu": ["CGManager", "贡献代码"],
+     "generator": "markdown",
+     "meta": {"input": "cgmanager/contribute.cns.md"}},
+
+    {"path": "/cgmanager/downloads",
+     "title": "CGManager - 下载",
+     "menu": ["CGManager", "下载"],
+     "generator": "downloads",
+     "meta": {"dir": "/downloads/cgmanager",
+              "input": "cgmanager/downloads.cns.md"}},
+
+    {"path": "/cgmanager/external-resources",
+     "menu": ["CGManager", "外部资源"]},
+
+    {"path": "/cgmanager/articles",
+     "title": "CGManager - 文章",
+     "menu": ["CGManager", "文章"],
+     "generator": "markdown",
+     "meta": {"input": "cgmanager/articles.cns.md"}},
+
+    {"path": "/cgmanager/mailing-lists",
+     "menu": ["CGManager", "邮箱列表"],
+     "generator": "link",
+     "meta": {"url": "https://lists.linuxcontainers.org"}},
+
+    {"path": "/cgmanager/irc",
+     "menu": ["CGManager", "IRC"],
+     "generator": "link",
+     "meta": {"url": "https://webchat.freenode.net/?channels=#lxcontainers"}},
+
+    {"path": "/cgmanager/github",
+     "menu": ["CGManager", "Github"],
+     "generator": "link",
+     "meta": {"url": "https://github.com/lxc/cgmanager"}},
+
+    {"path": "/cgmanager/travis-ci",
+     "menu": ["CGManager", "Travis CI"],
+     "generator": "link",
+     "meta": {"url": "https://travis-ci.org/lxc/cgmanager"}}
+]

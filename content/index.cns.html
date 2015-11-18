@@ -1,0 +1,124 @@
+<h2>LinuxContainers.org <span class="text-muted">容器项目的基础</span></h2>
+<div class="large_content">
+   <!--
+       linuxcontainers.org is the umbrella project behind LXC,
+       LXD, LXCFS and CGManager.-->
+    <p><img src="/static/img/containers.png"
+            alt="logo"/>
+       linuxcontainers.org 包含有 LXC,
+       LXD, LXCFS 和 CGManager项目.</p>
+       <!--
+       The goal is to offer a distro and vendor neutral environment
+       for the development of Linux container technologies.
+       -->
+
+    <p>目标是为各个发行版和供应商提供一个用于Linux容器技术发开的中立环境。</p>
+    <!--
+      Our main focus is system containers. That is, containers which
+      offer an environment as close to possible as the one you'd get from a
+      VM but without the overhead that comes with running a separate
+      kernel and simulating all the hardware.
+      -->
+
+    <p>我们主要关注与系统容器。也就是说，该容器所提供是接近于你所使用虚拟机的环境，但是又有别于虚拟机使用单独内核和模拟所有硬件。</p>
+    <!--
+      This is achieved through a combination of kernel security
+      features such as namespaces, mandatory access control and control
+      groups.
+      -->
+
+    <p>这通过内核安全来组合实现namespaces, mandatory access control and control
+       groups.</p>
+</div>
+
+<hr/>
+<h2>项目。<span class="text-muted">有意思的部分。</span></h2>
+<div class="row">
+    <div class="col-md-4">
+        <h3>LXC</h3>
+        <!--
+           LXC is the well known set of tools, templates,
+           library and language bindings. It's pretty low
+           level, very flexible and covers just about every
+           containment feature supported by the upstream
+           kernel.
+           -->
+        <p>LXC 包含了工具，模板，库和语言。它基于底层，非常灵活，涵盖了几乎所有上游内核中所应包含的特征</p>
+        <!--
+           LXC is production ready with LXC 1.0 getting 5
+           years of security updates and bugfixes
+           (until April 2019).
+           -->
+        <p>LXC 已应用于生产环境， LXC 1.0 有5年的安全更新和补丁更新（直到2019年4月)</p>
+        <p><a class="btn btn-primary" href="/lxc/introduction" role="button">了解更多 &raquo;</a></p>
+    </div>
+
+    <div class="col-md-4">
+        <h3>LXD</h3>
+        <!--
+           LXD is the new LXC experience. It offers a
+           completely fresh and intuitive user experience
+           with a single command line tool to manage your
+           containers. Containers can be managed over the
+           network in a transparent way through a REST API.
+           It also works with large scale deployments by
+           integrating with OpenStack.
+            -->
+        <p>LXD 是一种全新的LXC的体验形式。它提供了崭新和直观的用户体验，简单的用命令行工具就可以管理你的容器。
+        容器也可以通过REST API进行调用，更可以和OpenStack的整合进行大规模部署。</p>
+<!--
+           LXD was announced in early November 2014 and is
+           still under very active development.
+           -->
+        <p>LXD 于2014年11月初推出，它还在活跃开发中。</p>
+
+        <p><a class="btn btn-primary" href="/lxd/introduction" role="button">了解更多 &raquo;</a></p>
+    </div>
+
+    <div class="col-md-4">
+        <h3>CGManager</h3>
+        <!--
+           CGManager is our cgroup manager daemon. It's
+           designed to allow nested unprivileged containers
+           to still be able to create and manage their
+           cgroups through a DBus API.
+           -->
+        <p>CGManager 用来管理cgroup的守护进程. 它被设计用于允许嵌套未被授权的容器仍可以通过DBus API新建和管理它们自己的cgroups</p>
+<!--
+           CGManager has been used by default with LXC in
+           Ubuntu since April 2014 and then by other
+           distributions as they start needing working
+           unprivileged containers.
+           -->
+        <p>CGManager已从2014年4月开始在Ubuntu的lxc默认使用，之后是其它需要用到未授权容器的发行版本。</p>
+
+        <p><a class="btn btn-primary" href="/cgmanager/introduction" role="button">了解更多 &raquo;</a></p>
+    </div>
+
+    <div class="col-md-6">
+        <h3>LXCFS</h3>
+        <p>Userspace (FUSE) 文件系统提供以下两样主要功能:
+          <!--
+          Userspace (FUSE) filesystem offering two main things:
+          -->
+            <ul>
+                <!--
+                  Overlay files for cpuinfo, meminfo, stat and uptime.
+                  -->
+                <li>对cpuinfo, meminfo, stat and uptime覆盖文件</li>
+                <!--
+                  A cgroupfs compatible tree allowing unprivileged writes.
+                  -->
+                <li>允许对cgroupfs兼容树进行未授权的写操作</li>
+            </ul>
+        </p>
+
+        <p><!--It's designed to workaround the shortcomings of procfs, sysfs
+           and cgroupfs by exporting files which match what a system
+           container user would expect. -->
+           它被设计成为系统级容器用户所期望的，能在未来替换procfs, sysfs
+           and cgroupfs。 </p>
+
+        <p><a class="btn btn-primary" href="/lxcfs/introduction" role="button">了解更多 &raquo;</a></p>
+    </div>
+</div>

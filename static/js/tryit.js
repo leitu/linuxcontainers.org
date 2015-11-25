@@ -65,12 +65,19 @@ $(document).ready(function() {
     }
 
     function setupConsole(id) {
-        var sock = new WebSocket("wss://"+tryit_server+"/1.0/console?id="+id);
+        var element = document.getElementById('tryit_console');
+        var cell = createCell(element);
+        var size = getSize(element, cell);
+
+        var height = Math.max(Math.round(window.innerHeight / 50), 20);
+        var width = size.cols - 1;
+
+        var sock = new WebSocket("wss://"+tryit_server+"/1.0/console?id="+id+"&width="+width+"&height="+height);
 
         sock.onopen = function (e) {
             var term = new Terminal({
-                cols: 150,
-                rows: 20,
+                cols: width,
+                rows: height,
                 useStyle: true,
                 screenKeys: false
             });
@@ -91,6 +98,39 @@ $(document).ready(function() {
                 $('#tryit_console_reconnect').css("display", "inherit");
             };
         };
+    }
+
+    function getSize(element, cell) {
+        var wSubs   = element.offsetWidth - element.clientWidth,
+            w       = element.clientWidth - wSubs,
+
+            hSubs   = element.offsetHeight - element.clientHeight,
+            h       = element.clientHeight - hSubs,
+
+            x       = cell.clientWidth,
+            y       = cell.clientHeight,
+
+            cols    = Math.max(Math.floor(w / x), 10),
+            rows    = Math.max(Math.floor(h / y), 10),
+
+            size    = {
+                cols: cols,
+                rows: rows
+            };
+
+        return size;
+    }
+
+    function createCell(element) {
+        var cell            = document.createElement('div');
+
+        cell.innerHTML      = '&nbsp';
+        cell.style.position = 'absolute';
+        cell.style.top      = '-1000px';
+
+        element.appendChild(cell);
+
+        return cell;
     }
 
     $('.tryit_goback').click(function() {
